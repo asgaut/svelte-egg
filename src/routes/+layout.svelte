@@ -11,7 +11,7 @@
 	</main>
 
 	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+		<p>Basert på <a href="https://www.tu.no/artikler/oppskrift-pa-perfekt-kokt-egg-br/507964">en TU-artikkel</a></p>
 	</footer>
 </div>
 

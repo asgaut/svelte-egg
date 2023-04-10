@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { spring } from 'svelte/motion';
 
-	let count = 0;
+	let omkrets = 15;
+	let temp_egg_start = 4;
+	let temp_egg_slutt = 65; /* tYolk */
+	let temp_vann = 100; // koketemperatur på vannnet
 
-	const displayed_count = spring();
-	$: displayed_count.set(count);
-	$: offset = modulo($displayed_count, 1);
+	$: t = 0.0152*omkrets*omkrets*Math.log(2*(temp_vann-temp_egg_start)/(temp_vann-temp_egg_slutt));
 
 	function modulo(n: number, m: number) {
 		// handle negative numbers
@@ -14,25 +15,49 @@
 </script>
 
 <div class="counter">
-	<button on:click={() => (count -= 1)} aria-label="Decrease the counter by one">
+	<button on:click={() => (omkrets -= 1)} aria-label="Reduser omkrets med 1 cm">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5" />
 		</svg>
 	</button>
 
 	<div class="counter-viewport">
-		<div class="counter-digits" style="transform: translate(0, {100 * offset}%)">
-			<strong class="hidden" aria-hidden="true">{Math.floor($displayed_count + 1)}</strong>
-			<strong>{Math.floor($displayed_count)}</strong>
+		<div class="counter-digits">
+			<strong>{omkrets} cm</strong>
 		</div>
 	</div>
 
-	<button on:click={() => (count += 1)} aria-label="Increase the counter by one">
+
+	<button on:click={() => (omkrets += 1)} aria-label="Øk omkretsen med 1 cm">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
 		</svg>
 	</button>
+
+
 </div>
+
+<p>
+Koketid:
+</p>
+
+<div class="counter-viewport">
+	<div class="counter-digits">
+		<strong>{Math.trunc(t)} m {Math.round((t - Math.trunc(t))*60)} s </strong>
+	</div>
+</div>
+
+<div>
+	<br />
+	<label for="teggstart">Start temperatur (grader C):</label>
+	<input id="teggstart" type=number bind:value={temp_egg_start} min=0 max=30>
+	<br />
+	<label for='teggslutt'>Ferdig-temperatur (grader C):</label>
+	<input id='teggslutt' type=number bind:value={temp_egg_slutt} min=0 max=100>
+	<p>Tips: 65 grader for smilende egg</p>
+
+</div>
+
 
 <style>
 	.counter {
@@ -70,7 +95,7 @@
 	}
 
 	.counter-viewport {
-		width: 8em;
+		width: 20em;
 		height: 4em;
 		overflow: hidden;
 		text-align: center;
