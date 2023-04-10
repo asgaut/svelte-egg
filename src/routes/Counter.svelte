@@ -2,20 +2,26 @@
 	import { spring } from 'svelte/motion';
 
 	let omkrets = 15;
+	let altitude = 100;
 	let temp_egg_start = 4;
-	let temp_egg_slutt = 65; /* tYolk */
-	let temp_vann = 100; // koketemperatur på vannnet
+	let temp_egg_slutt = 65; /* t_Yolk */
 
-	$: t = 0.0152*omkrets*omkrets*Math.log(2*(temp_vann-temp_egg_start)/(temp_vann-temp_egg_slutt));
+	$: koke_temp = 100 - altitude/100 * 0.3;
+	$: t = 0.0152*omkrets*omkrets*Math.log(2*(koke_temp-temp_egg_start)/(koke_temp-temp_egg_slutt));
 
-	function modulo(n: number, m: number) {
-		// handle negative numbers
-		return ((n % m) + m) % m;
-	}
+	let pad = function(num: number, size: number) {
+		var s = String(num);
+		while (s.length < (size||2)) {s = "0" + s;}
+		return s;
+	};
 </script>
 
+<h2>
+	Omkrets på eggene:
+</h2>
+
 <div class="counter">
-	<button on:click={() => (omkrets -= 1)} aria-label="Reduser omkrets med 1 cm">
+	<button on:click={() => (omkrets -= 0.5)} aria-label="Reduser omkrets med 1 cm">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5" />
 		</svg>
@@ -27,33 +33,34 @@
 		</div>
 	</div>
 
-
-	<button on:click={() => (omkrets += 1)} aria-label="Øk omkretsen med 1 cm">
+	<button on:click={() => (omkrets += 0.5)} aria-label="Øk omkretsen med 1 cm">
 		<svg aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
 		</svg>
 	</button>
 
-
 </div>
 
-<p>
-Koketid:
-</p>
+<h2>
+Beregnet koketid:
+</h2>
 
 <div class="counter-viewport">
 	<div class="counter-digits">
-		<strong>{Math.trunc(t)} m {Math.round((t - Math.trunc(t))*60)} s </strong>
+		<strong>{Math.trunc(t)}:{pad(Math.round((t - Math.trunc(t))*60),2)}</strong>
 	</div>
 </div>
 
 <div>
 	<br />
-	<label for="teggstart">Start temperatur (grader C):</label>
-	<input id="teggstart" type=number bind:value={temp_egg_start} min=0 max=30>
+	<label for="altitude">Høyde over havet:</label>
+	<input id="altitude" type=number bind:value={altitude} min=0 max=8848 step=100>&nbsp;m
 	<br />
-	<label for='teggslutt'>Ferdig-temperatur (grader C):</label>
-	<input id='teggslutt' type=number bind:value={temp_egg_slutt} min=0 max=100>
+	<label for="teggstart">Start-temperatur:</label>
+	<input id="teggstart" type=number bind:value={temp_egg_start} min=0 max=30>&nbsp;°C
+	<br />
+	<label for='teggslutt'>Ferdig-temperatur:</label>
+	<input id='teggslutt' type=number bind:value={temp_egg_slutt} min=0 max=100>&nbsp;°C
 	<p>Tips: 65 grader for smilende egg</p>
 
 </div>

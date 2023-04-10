@@ -11,7 +11,7 @@
 	</main>
 
 	<footer>
-		<p>Basert på <a href="https://www.tu.no/artikler/oppskrift-pa-perfekt-kokt-egg-br/507964">en TU-artikkel</a></p>
+		<p>Basert på en <a href="https://www.tu.no/artikler/oppskrift-pa-perfekt-kokt-egg-br/507964">TU-artikkel</a></p>
 	</footer>
 </div>
 

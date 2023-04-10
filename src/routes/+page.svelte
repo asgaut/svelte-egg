@@ -1,7 +1,6 @@
 <script>
 	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+	import welcome from '$lib/images/egg.svg';
 </script>
 
 <svelte:head>
@@ -13,17 +12,11 @@
 	<h1>
 		<span class="welcome">
 			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
+				<source srcset={welcome} type="image/svg" />
+				<img src={welcome} alt="Velkommen" />
 			</picture>
 		</span>
-
-		til SvelteEgg
 	</h1>
-
-	<h2>
-		Omkrets på eggene:
-	</h2>
 
 	<Counter />
 </section>
@@ -44,6 +37,7 @@
 	.welcome {
 		display: block;
 		position: relative;
+		/*border: black solid 1px;*/
 		width: 100%;
 		height: 0;
 		padding: 0 0 calc(100% * 495 / 2048) 0;
